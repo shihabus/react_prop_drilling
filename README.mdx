@@ -1,0 +1,39 @@
+Inorder to persist data across rerenders we use states. 
+
+There would be cases when a common piece of data is to be shared between multiple components. 
+In that case what we do is, keep the state with a common parent. This called lifting up of state. Now we need ways to passdown 
+the state from this common parent to down the children. This can be done in many ways, and I am discussing a few bellow.
+
+Approach 1
+
+```
+function ButtonText(props){
+  return(
+    <p>The count is: {props.count}</p>
+  )
+}
+
+function Button(props){
+  return(
+    <ButtonText count={props.countValue}/>
+  )
+}
+
+class Parent extends React.Component{
+  constructor(props){
+    super(props)
+    this.state={
+      count:0
+    }
+  }
+  
+  render(){
+    return( 
+      <Button countValue={this.state.count}/>
+    )
+  }
+}
+```
+
+With approach 1 we can see that the `<Button/>` is not at all using the `countValue` props and it is just passing it down
+to the `<ButtonText/>`. This can be avoided by keeping the state closest to the children using it.
